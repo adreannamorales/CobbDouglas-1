@@ -1,6 +1,6 @@
 ---
 title: "CobbDouglas"
-author: "Dr. J"
+author: "adreanna morales"
 date: "4/24/2020"
 output: html_document
 ---
@@ -81,9 +81,9 @@ parms=c(A, alpha, beta)
 print(CDloss(parms, Q, Cap, Emp))
 
 # better or worse than
-A = 0.5
+A = 0.75
 alpha = 0.2
-beta = 0.8
+beta = 0.5
 parms=c(A, alpha, beta)
 print(CDloss(parms, Q, Cap, Emp))
 ```
@@ -92,9 +92,9 @@ print(CDloss(parms, Q, Cap, Emp))
 
 ```{r}
 
-for (A in seq(from=0.01, to = 2, length.out = 4))
+for (A in seq(from=0.01, to = 3, length.out = 4))
   for(a in seq(from=0.01, to = 1,length.out = 6))
-   for(b in seq(from=0.01, to = 1, length.out = 6)){
+   for(b in seq(from=0.01, to = 1, length.out = 4)){
      parms = c(A, a, b)
       print(paste(A, a, b,'        ', CDloss(parms, Q, Cap, Emp)))
   }
@@ -107,9 +107,9 @@ use function optim to find values of A, alpha, beta
 find values that minimize the loss function, loss = sum of sqrared errors.  This is a 'least squares' solution
 
 ```{r}
-##     ?optim
-parms = c(2, 0.8, 0.2)
-opt = optim(parms, CDloss, Q=Q, Cap=Cap, Emp=Emp)
+### Optimization
+parms = c(1, 0.75, 0.25)
+opt = optim(parms, CDloss,Q=Q,Cap=Cap,Emp=Emp)
 print(opt)
 parms = c(opt$par[1], opt$par[2], opt$par[3])
 print(CDloss(parms, Q, Cap,Emp))
@@ -148,9 +148,23 @@ print(paste('A = ',A,' alpha = ', alpha,' beta =', beta))
 parms=c(A, alpha, beta)
 print(paste('CD loss: ', CDloss(parms, Q, Cap, Emp)))
 ```
+$$log(Q)=0.54+0.25*log(k)+0.77*log(L)$$
+$$Q=e^{0.54}*K^{0.23}+L^{0.77}$$
+## maximum likelihood estimation
+Wi 
+$\phi$ is the standard normal distribution
 
 ## Questions:
 1 what are the estimated values of A, alpha and beta
+In order to minimize the loss function, the values for the constants are as follow: $A$=1.3044599, $\alpha$=0.8287067, $\beta$=0.2215366. The result was acheieved by using the Maximum Likelihood estimation method.
+### 2. Confidence intervals on A, alpha, beta?
+  Confidence Interval for $\alpha$: 0.23 $\pm$ 1.96*0.02882
+  Confidence Interval for $\beta$: 0.77 $\pm$ 1.96*0.02735
+  Confidence Interval for $A$: 1.716$\pm$ $e^{0.2960}$
+### 3. Is production at constant return to scale?
+  If production is increasing or decreasing return to scale, which input is most  expensive? Production is at a constant return to scale. It is contstant because $\alpha$+$\beta$ is equal to 0.9976 which is almost equal to 1.
+### 4. What does the values of A mean?
+  $A$ is the total factor productivity, which is an efficiency parameter.
 2 confidence intervals on A, alpha, beta?
 3 is production at constant return to scale? If production is increasing or decreasing return to scale, which input is most expensive
 4. What does the values of A mean??
